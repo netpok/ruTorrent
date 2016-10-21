@@ -1,3 +1,11 @@
+#cloudflare RSS workaround
+
+To use this you need to copy the rss.php and cloudflareClass.php from plugins/rss folder to their place.
+
+Later I will make a pull request for this.
+
+This modification is using the [cloudflare-bypass library made by KyranRana (https://github.com/KyranRana/cloudflare-bypass)](https://github.com/KyranRana/cloudflare-bypass). 
+
 #ruTorrent
 
 ruTorrent is a front-end for the popular Bittorrent client [rtorrent](http://rakshasa.github.io/rtorrent).
