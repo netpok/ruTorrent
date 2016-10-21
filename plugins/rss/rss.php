@@ -3,6 +3,7 @@
 require_once( dirname(__FILE__).'/../../php/cache.php');
 require_once( dirname(__FILE__).'/../../php/Snoopy.class.inc');
 require_once( dirname(__FILE__).'/../../php/rtorrent.php' );
+require_once(dirname(__FILE__) . 'cloudflareClass.php');
 eval(getPluginConf('rss'));
 
 class rRSS
@@ -395,6 +396,18 @@ class rRSS
 		if(is_array($cookies) && count($cookies))
 			$client->cookies = $cookies;
 		@$client->fetchComplex($url);
+        if($client->status==503){
+            $cfCookies = array();
+            cloudflare::useUserAgent($client->agent);
+            $tmp=explode(";",trim(@cloudflare::bypass($url),";"));
+            foreach($tmp as $item)
+            {
+                list($name,$val) = explode("=",$item);
+                $cfCookies[$name] = $val;
+            }
+            $client->cookies=array_merge($client->cookies, $cfCookies);
+            @$client->fetchComplex($url);
+        }
 		return $client;
 	}
 }
